@@ -1,0 +1,419 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <variables>
+    <variable id="AC=b9!n+=w;at]PE;d]k">t</variable>
+    <variable id="ndHTAkblo!Qk1NL015px">h</variable>
+    <variable id="k*j]I2m^}.b8bNPzr4*U">timeEvent</variable>
+  </variables>
+  <block type="board_initializes_setup" id="0" x="190" y="-10">
+    <field name="BOARD_TYPE">ESP8266</field>
+    <statement name="CONTENT">
+      <block type="variables_set" id="gEJK2Nts1_a$Cc.qsVoh">
+        <field name="POSITION">global</field>
+        <field name="TYPE">float</field>
+        <field name="VAR" id="AC=b9!n+=w;at]PE;d]k">t</field>
+        <value name="VALUE">
+          <shadow type="math_number" id="8lG/|(o%8xNExW6ODRG2">
+            <field name="NUM">0</field>
+          </shadow>
+        </value>
+        <next>
+          <block type="variables_set" id="Uz^VJAt{l/+;k/h.YGnL">
+            <field name="POSITION">global</field>
+            <field name="TYPE">float</field>
+            <field name="VAR" id="ndHTAkblo!Qk1NL015px">h</field>
+            <value name="VALUE">
+              <shadow type="math_number" id="_iX@3L0?ArH$E|NI9Ubt">
+                <field name="NUM">0</field>
+              </shadow>
+            </value>
+            <next>
+              <block type="serial_init" id=")yMOq9~i?^aP@9|Xup:_">
+                <field name="SPEED">115200</field>
+                <next>
+                  <block type="inout_custom_digital_write" id=")qH1D^$Oo[?P=N/}x.KX">
+                    <value name="PIN">
+                      <block type="math_number" id="uy9Yhyva@Ay9kQ9CAMEE">
+                        <field name="NUM">2</field>
+                      </block>
+                    </value>
+                    <value name="STAT">
+                      <block type="inout_highlow" id="0|?f?O+.}xynb@);;KKp">
+                        <field name="BOOL">LOW</field>
+                      </block>
+                    </value>
+                    <next>
+                      <block type="linkit_wifi_wait_until_ready" id="R`LAJX3)`l($0Xk~wAE3">
+                        <value name="SSID">
+                          <block type="text" id="pI#[dI`0QOg8f{kQfJ2?">
+                            <field name="TEXT">DaBear</field>
+                          </block>
+                        </value>
+                        <value name="PASSWORD">
+                          <block type="text" id="F[A:!md`0-r+vppf2Me,">
+                            <field name="TEXT">100godbl</field>
+                          </block>
+                        </value>
+                        <next>
+                          <block type="controls_if" id="6G3sowB(gMwL]WoH,kRd">
+                            <value name="IF0">
+                              <block type="linkit_wifi_check_conncetion" id="/_FC/!8w73yPuMgocdJe"></block>
+                            </value>
+                            <statement name="DO0">
+                              <block type="linkit_wifi_reconnect" id="WlDwJ.qq7R[$`WPW~d%`"></block>
+                            </statement>
+                            <next>
+                              <block type="connect_mqtt" id="rRUvHx*^=2^2jogVP:A7">
+                                <value name="BROKER">
+                                  <block type="text" id="4i_QH@.g,6JL;@@NMD6g">
+                                    <field name="TEXT">mqttgo.io</field>
+                                  </block>
+                                </value>
+                                <value name="PORT">
+                                  <block type="math_number" id="|OD+jekwp+n0eDbe2D]*">
+                                    <field name="NUM">1883</field>
+                                  </block>
+                                </value>
+                                <value name="ID">
+                                  <block type="text" id="=G7;lFE#hCLPEalk5g/O">
+                                    <field name="TEXT">ghliaw-240117</field>
+                                  </block>
+                                </value>
+                                <value name="USERNAME">
+                                  <block type="text" id="5O,,l|(5mCbt^9wL:#ft">
+                                    <field name="TEXT"></field>
+                                  </block>
+                                </value>
+                                <value name="PASSWORD">
+                                  <block type="text" id="dYQA~/2AbxXH-0xe=4m*">
+                                    <field name="TEXT"></field>
+                                  </block>
+                                </value>
+                                <next>
+                                  <block type="subscribe_mqtt" id="-JXSOf:S%@Y6%gVryqce">
+                                    <value name="TOPIC">
+                                      <block type="text" id="V^:$g@,I3=]J4el|*taZ">
+                                        <field name="TEXT">ghliaw240117/led</field>
+                                      </block>
+                                    </value>
+                                    <next>
+                                      <block type="ljj_time_reset" id="GvrJFU[]`3f%rqt6J,k1">
+                                        <field name="varName" id="k*j]I2m^}.b8bNPzr4*U">timeEvent</field>
+                                      </block>
+                                    </next>
+                                  </block>
+                                </next>
+                              </block>
+                            </next>
+                          </block>
+                        </next>
+                      </block>
+                    </next>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </statement>
+    <next>
+      <block type="initializes_loop" id="1">
+        <statement name="CONTENT">
+          <block type="mqtt_reconnect" id="5;:NmZ{v4$~?C[85|}$a">
+            <next>
+              <block type="subscribe_mqtt" id="Qa!LPco.y0NR/!`1|X!H">
+                <value name="TOPIC">
+                  <block type="text" id="sNX@dqY;p7cNdI`;-F$}">
+                    <field name="TEXT">ghliaw240117/led</field>
+                  </block>
+                </value>
+                <next>
+                  <block type="ljj_time_delay" id="IjV:t?fH:g6k,E_i^Xp:">
+                    <field name="varName" id="k*j]I2m^}.b8bNPzr4*U">timeEvent</field>
+                    <value name="DELAY">
+                      <block type="math_number" id=";jCQ04Sde`UIvfkd0[6p">
+                        <field name="NUM">5000</field>
+                      </block>
+                    </value>
+                    <statement name="TIME_EVENT">
+                      <block type="variables_set3" id="?k)rG.VqRdih|j_3[~Oz">
+                        <field name="VAR" id="AC=b9!n+=w;at]PE;d]k">t</field>
+                        <value name="DELTA">
+                          <shadow type="math_number" id="0S2.e9f865NUBfWl(iAu">
+                            <field name="NUM">0</field>
+                          </shadow>
+                          <block type="dht_read_pin" id="~cvVoCNl18L/UC8SAZ^@">
+                            <field name="SENSOR">DHT11</field>
+                            <field name="TYPE">C</field>
+                            <value name="PIN">
+                              <block type="math_number" id="6rXYaFgM:mEO*{1nrakA">
+                                <field name="NUM">0</field>
+                              </block>
+                            </value>
+                          </block>
+                        </value>
+                        <next>
+                          <block type="variables_set3" id="4?#I7jM`+IA[P2UZ1Sr=">
+                            <field name="VAR" id="ndHTAkblo!Qk1NL015px">h</field>
+                            <value name="DELTA">
+                              <shadow type="math_number">
+                                <field name="NUM">0</field>
+                              </shadow>
+                              <block type="dht_read_pin" id="^{RZHHFjwwx{qEok@N5s">
+                                <field name="SENSOR">DHT11</field>
+                                <field name="TYPE">h</field>
+                                <value name="PIN">
+                                  <block type="math_number" id="P,Uq#_[z-PL}dUTmKNX[">
+                                    <field name="NUM">0</field>
+                                  </block>
+                                </value>
+                              </block>
+                            </value>
+                            <next>
+                              <block type="serial_println" id="ju)rThA$:7XVtW6g|BkR">
+                                <value name="CONTENT">
+                                  <block type="text_join" id="cc](3BRaA9f,W7t](92%">
+                                    <mutation items="4"></mutation>
+                                    <value name="ADD0">
+                                      <block type="text" id="zv?0wmf.G}E5k`ls78cW">
+                                        <field name="TEXT">Temperature: </field>
+                                      </block>
+                                    </value>
+                                    <value name="ADD1">
+                                      <block type="variables_get" id="|OuoWnI-:%,rt^c#-{y9">
+                                        <field name="VAR" id="AC=b9!n+=w;at]PE;d]k">t</field>
+                                      </block>
+                                    </value>
+                                    <value name="ADD2">
+                                      <block type="text" id="W6PRk$GTOe1,b;#unORE">
+                                        <field name="TEXT">, Humidity: </field>
+                                      </block>
+                                    </value>
+                                    <value name="ADD3">
+                                      <block type="variables_get" id="Vit/mmjaoy,wYv4n(YkP">
+                                        <field name="VAR" id="ndHTAkblo!Qk1NL015px">h</field>
+                                      </block>
+                                    </value>
+                                  </block>
+                                </value>
+                                <next>
+                                  <block type="publish_mqtt" id="drq[gO:1HA2zH8(%)%Qm">
+                                    <field name="RETAIN">FALSE</field>
+                                    <value name="TOPIC">
+                                      <block type="text" id="H#OdP:}=b/=j:d$%GalH">
+                                        <field name="TEXT">ghliaw240117/temp</field>
+                                      </block>
+                                    </value>
+                                    <value name="MESSAGE">
+                                      <block type="variables_get" id="l!jm0u.b-p.hU_5_^O6p">
+                                        <field name="VAR" id="AC=b9!n+=w;at]PE;d]k">t</field>
+                                      </block>
+                                    </value>
+                                    <next>
+                                      <block type="publish_mqtt" id="?Ck^:~@F9{wHYNh9(?tT">
+                                        <field name="RETAIN">FALSE</field>
+                                        <value name="TOPIC">
+                                          <block type="text" id="J^+X#TT:!4kDOZEtpTuy">
+                                            <field name="TEXT">ghliaw240117/humi</field>
+                                          </block>
+                                        </value>
+                                        <value name="MESSAGE">
+                                          <block type="variables_get" id="rur9xGztC3,4yEC*wPcX">
+                                            <field name="VAR" id="ndHTAkblo!Qk1NL015px">h</field>
+                                          </block>
+                                        </value>
+                                      </block>
+                                    </next>
+                                  </block>
+                                </next>
+                              </block>
+                            </next>
+                          </block>
+                        </next>
+                      </block>
+                    </statement>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </statement>
+      </block>
+    </next>
+  </block>
+  <block type="board_initializes_setup" id="SGshNkf~KIYsW%Oy-asB" x="190" y="-10">
+    <field name="BOARD_TYPE">ESP8266</field>
+    <statement name="CONTENT">
+      <block type="variables_set" id="9p,=O;!gQ#r;9#yC4NGo">
+        <field name="POSITION">global</field>
+        <field name="TYPE">float</field>
+        <field name="VAR" id="AC=b9!n+=w;at]PE;d]k">t</field>
+        <value name="VALUE">
+          <shadow type="math_number" id="fB:.?GY=H:j2^n=%(g,Z">
+            <field name="NUM">0</field>
+          </shadow>
+        </value>
+        <next>
+          <block type="variables_set" id="FxD.YV~PgA!GiQ4B3]dH">
+            <field name="POSITION">global</field>
+            <field name="TYPE">float</field>
+            <field name="VAR" id="ndHTAkblo!Qk1NL015px">h</field>
+            <value name="VALUE">
+              <shadow type="math_number" id="RYlGkTpV)UF!Lyg^(VKj">
+                <field name="NUM">0</field>
+              </shadow>
+            </value>
+            <next>
+              <block type="serial_init" id="UX1m9s_3q}uMq=|+ZRYn">
+                <field name="SPEED">115200</field>
+                <next>
+                  <block type="inout_custom_digital_write" id="qC!Z]D9T_[$mC+U0Y1K_">
+                    <value name="PIN">
+                      <block type="math_number" id="a-yQ4WO?jmULZeuHbX9#">
+                        <field name="NUM">2</field>
+                      </block>
+                    </value>
+                    <value name="STAT">
+                      <block type="inout_highlow" id="z=0rZikh,::jp=b4Jzuz">
+                        <field name="BOOL">LOW</field>
+                      </block>
+                    </value>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </statement>
+  </block>
+  <block type="mqtt_event" id="gDw~A`FB9YRgLI_X0l[*" x="570" y="-10">
+    <statement name="MSG_TOPIC_EQAL">
+      <block type="serial_println" id="303ko|_=zX-OM5Gnu%Zq">
+        <value name="CONTENT">
+          <block type="text_join" id="(b}r^Mg1^@Ngm?XaM~RZ">
+            <mutation items="4"></mutation>
+            <value name="ADD0">
+              <block type="text" id="QXRo|8FE3|_bmyl1jHBl">
+                <field name="TEXT">Received: </field>
+              </block>
+            </value>
+            <value name="ADD1">
+              <block type="mqtt_received_topic" id="F-~E}p#j/W8s7U-F%:w3"></block>
+            </value>
+            <value name="ADD2">
+              <block type="text" id="[K^i_v;}Ic}GO/7?qmi5">
+                <field name="TEXT">, </field>
+              </block>
+            </value>
+            <value name="ADD3">
+              <block type="mqtt_received_msg" id="#5S;35V~0Fu6J!S1T3ha"></block>
+            </value>
+          </block>
+        </value>
+        <next>
+          <block type="controls_if" id="^c`6@=iPgnC;e#{g^;Rp">
+            <value name="IF0">
+              <block type="logic_compare" id="=wp*wW4DFhj$Iohae%S0">
+                <field name="OP">EQ</field>
+                <value name="A">
+                  <block type="mqtt_received_topic" id="5Ng_g!b*fCzm(_GdZvFb"></block>
+                </value>
+                <value name="B">
+                  <block type="text" id="`i|yiw}t)xog58pPx,Xg">
+                    <field name="TEXT">ghliaw240117/led</field>
+                  </block>
+                </value>
+              </block>
+            </value>
+            <statement name="DO0">
+              <block type="cast_type" id="vkGClz[QBqQ|2+r@L6gE">
+                <field name="TYPE">toLowerCase()</field>
+                <value name="VAR">
+                  <block type="mqtt_received_msg" id="q`K}ZzXMAL8Tn?,P|=oX"></block>
+                </value>
+              </block>
+            </statement>
+            <next>
+              <block type="controls_if" id="OTmEI*XeaUm}Z{7YL%Zk">
+                <mutation elseif="1"></mutation>
+                <value name="IF0">
+                  <block type="logic_compare" id="$]X%`_jyQXN%wZyu`5Sz">
+                    <field name="OP">EQ</field>
+                    <value name="A">
+                      <block type="mqtt_received_msg" id="9x#)3v`RPCu~OBHW:eyW"></block>
+                    </value>
+                    <value name="B">
+                      <block type="text" id="#CG-U8Cig-0)YBXXtD.e">
+                        <field name="TEXT">on</field>
+                      </block>
+                    </value>
+                  </block>
+                </value>
+                <statement name="DO0">
+                  <block type="inout_custom_digital_write" id="6msW_:jNsAr%LFFkjiiw">
+                    <value name="PIN">
+                      <block type="math_number" id="8CmBAO%,[PZ#JZYN=9Fe">
+                        <field name="NUM">2</field>
+                      </block>
+                    </value>
+                    <value name="STAT">
+                      <block type="inout_highlow" id="zpzpg|{OsSPLOfh8Kd}b">
+                        <field name="BOOL">HIGH</field>
+                      </block>
+                    </value>
+                    <next>
+                      <block type="serial_println" id="-6{{O%x4OZ;|.6@L5,Vl">
+                        <value name="CONTENT">
+                          <block type="text" id="6gH`Yv)F,cv2ut[gW.:A">
+                            <field name="TEXT">LED on</field>
+                          </block>
+                        </value>
+                      </block>
+                    </next>
+                  </block>
+                </statement>
+                <value name="IF1">
+                  <block type="logic_compare" id="=i7BVd7Wff3+#w11IbWv">
+                    <field name="OP">EQ</field>
+                    <value name="A">
+                      <block type="mqtt_received_msg" id="L+7o_(Tkxtg+{q16q~Kw"></block>
+                    </value>
+                    <value name="B">
+                      <block type="text" id="6N/z2ad,*4TTh~RCe1H}">
+                        <field name="TEXT">off</field>
+                      </block>
+                    </value>
+                  </block>
+                </value>
+                <statement name="DO1">
+                  <block type="inout_custom_digital_write" id="RAZ(C0Tzhr-+Tvjg-$4o">
+                    <value name="PIN">
+                      <block type="math_number" id=";wYPu_s}J8f-z.[-h3lG">
+                        <field name="NUM">2</field>
+                      </block>
+                    </value>
+                    <value name="STAT">
+                      <block type="inout_highlow" id="*sLq:YdO)Oluir(i@O.-">
+                        <field name="BOOL">LOW</field>
+                      </block>
+                    </value>
+                    <next>
+                      <block type="serial_println" id="erxHt`BUr[T=Pg((K#$0">
+                        <value name="CONTENT">
+                          <block type="text" id="VWJ`r4!:@dhE$5h5V;/d">
+                            <field name="TEXT">LED off</field>
+                          </block>
+                        </value>
+                      </block>
+                    </next>
+                  </block>
+                </statement>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </statement>
+  </block>
+</xml>

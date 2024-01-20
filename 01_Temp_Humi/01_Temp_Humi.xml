@@ -1,0 +1,174 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <variables>
+    <variable id="AC=b9!n+=w;at]PE;d]k">t</variable>
+    <variable id="ndHTAkblo!Qk1NL015px">h</variable>
+  </variables>
+  <block type="board_initializes_setup" id="0" x="190" y="-10">
+    <field name="BOARD_TYPE">ESP8266</field>
+    <statement name="CONTENT">
+      <block type="variables_set" id="gEJK2Nts1_a$Cc.qsVoh">
+        <field name="POSITION">global</field>
+        <field name="TYPE">float</field>
+        <field name="VAR" id="AC=b9!n+=w;at]PE;d]k">t</field>
+        <value name="VALUE">
+          <shadow type="math_number" id="8lG/|(o%8xNExW6ODRG2">
+            <field name="NUM">0</field>
+          </shadow>
+        </value>
+        <next>
+          <block type="variables_set" id="Uz^VJAt{l/+;k/h.YGnL">
+            <field name="POSITION">global</field>
+            <field name="TYPE">float</field>
+            <field name="VAR" id="ndHTAkblo!Qk1NL015px">h</field>
+            <value name="VALUE">
+              <shadow type="math_number" id="_iX@3L0?ArH$E|NI9Ubt">
+                <field name="NUM">0</field>
+              </shadow>
+            </value>
+            <next>
+              <block type="serial_init" id=")yMOq9~i?^aP@9|Xup:_">
+                <field name="SPEED">115200</field>
+                <next>
+                  <block type="inout_custom_digital_write" id=")qH1D^$Oo[?P=N/}x.KX">
+                    <value name="PIN">
+                      <block type="math_number" id="uy9Yhyva@Ay9kQ9CAMEE">
+                        <field name="NUM">2</field>
+                      </block>
+                    </value>
+                    <value name="STAT">
+                      <block type="inout_highlow" id="0|?f?O+.}xynb@);;KKp">
+                        <field name="BOOL">LOW</field>
+                      </block>
+                    </value>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </statement>
+    <next>
+      <block type="initializes_loop" id="1">
+        <statement name="CONTENT">
+          <block type="variables_set3" id="?k)rG.VqRdih|j_3[~Oz">
+            <field name="VAR" id="AC=b9!n+=w;at]PE;d]k">t</field>
+            <value name="DELTA">
+              <shadow type="math_number" id="0S2.e9f865NUBfWl(iAu">
+                <field name="NUM">0</field>
+              </shadow>
+              <block type="dht_read_pin" id="~cvVoCNl18L/UC8SAZ^@">
+                <field name="SENSOR">DHT11</field>
+                <field name="TYPE">C</field>
+                <value name="PIN">
+                  <block type="math_number" id="6rXYaFgM:mEO*{1nrakA">
+                    <field name="NUM">16</field>
+                  </block>
+                </value>
+              </block>
+            </value>
+            <next>
+              <block type="variables_set3" id="4?#I7jM`+IA[P2UZ1Sr=">
+                <field name="VAR" id="ndHTAkblo!Qk1NL015px">h</field>
+                <value name="DELTA">
+                  <shadow type="math_number">
+                    <field name="NUM">0</field>
+                  </shadow>
+                  <block type="dht_read_pin" id="^{RZHHFjwwx{qEok@N5s">
+                    <field name="SENSOR">DHT11</field>
+                    <field name="TYPE">h</field>
+                    <value name="PIN">
+                      <block type="math_number" id="P,Uq#_[z-PL}dUTmKNX[">
+                        <field name="NUM">16</field>
+                      </block>
+                    </value>
+                  </block>
+                </value>
+                <next>
+                  <block type="serial_println" id="ju)rThA$:7XVtW6g|BkR">
+                    <value name="CONTENT">
+                      <block type="text_join" id="cc](3BRaA9f,W7t](92%">
+                        <mutation items="4"></mutation>
+                        <value name="ADD0">
+                          <block type="text" id="zv?0wmf.G}E5k`ls78cW">
+                            <field name="TEXT">Temperature: </field>
+                          </block>
+                        </value>
+                        <value name="ADD1">
+                          <block type="variables_get" id="|OuoWnI-:%,rt^c#-{y9">
+                            <field name="VAR" id="AC=b9!n+=w;at]PE;d]k">t</field>
+                          </block>
+                        </value>
+                        <value name="ADD2">
+                          <block type="text" id="W6PRk$GTOe1,b;#unORE">
+                            <field name="TEXT">, Humidity: </field>
+                          </block>
+                        </value>
+                        <value name="ADD3">
+                          <block type="variables_get" id="Vit/mmjaoy,wYv4n(YkP">
+                            <field name="VAR" id="ndHTAkblo!Qk1NL015px">h</field>
+                          </block>
+                        </value>
+                      </block>
+                    </value>
+                    <next>
+                      <block type="controls_if" id="A2`XTcjBcKIs1pAz1%lt">
+                        <mutation else="1"></mutation>
+                        <value name="IF0">
+                          <block type="inout_digital_buildin_read" id="?I20k)X]IGJ%KN?XEu$-"></block>
+                        </value>
+                        <statement name="DO0">
+                          <block type="serial_println" id="?=2(,UUH]cXy~.4t`p~r">
+                            <value name="CONTENT">
+                              <block type="text" id="%w9CMBvYWdQ]itXCGh@t">
+                                <field name="TEXT">LED On</field>
+                              </block>
+                            </value>
+                          </block>
+                        </statement>
+                        <statement name="ELSE">
+                          <block type="serial_println" id="_c+nFNPx$]ex;c|kW^vW">
+                            <value name="CONTENT">
+                              <block type="text" id="0t,oc9nLs`QvredqW*da">
+                                <field name="TEXT">LED Off</field>
+                              </block>
+                            </value>
+                          </block>
+                        </statement>
+                        <next>
+                          <block type="inout_custom_digital_write" id="}c`Suepe0;8M.-S0kcMW">
+                            <value name="PIN">
+                              <block type="math_number" id="5O:WS]/wTV.^#6J-S{Mz">
+                                <field name="NUM">2</field>
+                              </block>
+                            </value>
+                            <value name="STAT">
+                              <block type="logic_negate" id="wT/i`3*V%a[=?LBE?0gB">
+                                <value name="BOOL">
+                                  <block type="inout_digital_buildin_read" id="k],kb2k*NkV{V)23H*92"></block>
+                                </value>
+                              </block>
+                            </value>
+                            <next>
+                              <block type="delay_custom" id="0?;pWTrKLDM#IBQR/,gP">
+                                <value name="DELAY_TIME">
+                                  <block type="math_number" id="UZ/;|H/B:gL9=IhFqIp5">
+                                    <field name="NUM">5000</field>
+                                  </block>
+                                </value>
+                              </block>
+                            </next>
+                          </block>
+                        </next>
+                      </block>
+                    </next>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </statement>
+      </block>
+    </next>
+  </block>
+</xml>

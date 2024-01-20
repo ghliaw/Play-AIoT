@@ -1,0 +1,20 @@
+{
+    "name": "Play-AIoT-Render-Server",
+    "description": "A Node-RED Project",
+    "version": "1.0.0",
+    "private": true,
+    "main": "index.js",
+    "scripts": {
+    "start": "node-red --settings ./.node-red/settings.js --userDir ./.node-red",
+    "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "node-red": "^3.0.2",
+        "node-red-contrib-teachable-machine": "~1.4.1",
+        "node-red-contrib-ui-led": "~0.4.11",
+        "node-red-dashboard": "~3.6.2",
+        "node-red-node-ui-webcam": "~0.4.0"
+    }
+}
