@@ -1,4 +1,4 @@
-//Generated Date: Mon, 22 Jan 2024 17:00:31 GMT
+//Generated Date: Mon, 22 Jan 2024 17:28:49 GMT
 
 #include <ESP8266WiFi.h>
 #include <PubSubClient.h>
@@ -66,7 +66,7 @@ void loop()
     WiFi.begin(_lwifi_ssid, _lwifi_pass);
     while (WiFi.status() != WL_CONNECTED) { delay(500); }
     delay(300);
-    Serial.println((String("WiFi connected to: ")+String("xxxxxxxx")+String(", IP address: ")+String(WiFi.localIP().toString())));
+    Serial.println((String("WiFi connected to: ")+String("3715")+String(", IP address: ")+String(WiFi.localIP().toString())));
   }
   if (!mqtt_client.connected()) {
     reconnect();
