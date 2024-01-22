@@ -1,85 +1,112 @@
-//Generated Date: Thu, 18 Jan 2024 02:15:44 GMT
+//Generated Date: Sat, 20 Jan 2024 01:54:06 GMT
 
 #include <ESP8266WiFi.h>
 #include <PubSubClient.h>
-#define MQTT_SERVER_IP "mqttgo.io"
-#define MQTT_SERVER_PORT 1883
-#define MQTT_ID "ghliaw-240117"
-#define MQTT_USERNAME ""
+#define MQTT_USER ""
 #define MQTT_PASSWORD ""
 #include <DHT.h>
 
-float t = 0;
-float h = 0;
-char _lwifi_ssid[] = "DaBear";
-char _lwifi_pass[] = "100godbl";
-String receivedTopic="";
-String receivedMsg="";
-bool waitForE=true;
-bool ended=true;
-bool pubCtrl=false;
+boolean ledStatus = false;
+const char* mqttLEDControlTopic = "xxxxxxxx/led_control";
+const char* mqttLEDStatusTopic = "xxxxxxxx/led_status";
+char _lwifi_ssid[] = "xxxxxxxx";
+char _lwifi_pass[] = "xxxxxxxx";
+const char* mqtt_server = "mqttgo.io";
+const unsigned int mqtt_port = 1883;
+WiFiClient espClient;
+PubSubClient mqtt_client(espClient);
+String mqtt_data = "";
 
-WiFiClient mqttClient;
-PubSubClient myClient(mqttClient);
+void mqtt_sendText(String topic, String text) {
+    String clientId = "(unique ID)";
+    if (mqtt_client.connect(clientId.c_str(), MQTT_USER, MQTT_PASSWORD)) {
+      mqtt_client.publish(topic.c_str(), text.c_str());
+    }
+}
 
-DHT dht11_p0(0, DHT11);
-unsigned long timeEvent=0;
-void connectMQTT(){
-  while (!myClient.connected()){
-    if (!myClient.connect(MQTT_ID,MQTT_USERNAME,MQTT_PASSWORD))
-    {
+void reconnect() {
+  while (!mqtt_client.connected()) {
+    String mqtt_clientId = "(unique ID)";
+    if (mqtt_client.connect(mqtt_clientId.c_str(), MQTT_USER, MQTT_PASSWORD)) {
+      mqtt_client.subscribe(mqttLEDControlTopic);
+    } else {
       delay(5000);
     }
   }
 }
 
-void mqttCallback(char* topic, byte* payload, unsigned int length){
-  receivedTopic=String(topic);
-  receivedMsg="";
-  for (unsigned int myIndex = 0; myIndex < length; myIndex++)
-  {
-    receivedMsg += (char)payload[myIndex];
-  }
-  receivedMsg.trim();
-  Serial.println((String("Received: ")+String(receivedTopic)+String(", ")+String(receivedMsg)));
-  if (receivedTopic == "ghliaw240117/led") {
-    receivedMsg.toLowerCase();
-  }
-  if (receivedMsg == "on") {
-    digitalWrite(2, HIGH);
-    Serial.println("LED on");
-  } else if (receivedMsg == "off") {
-    digitalWrite(2, LOW);
-    Serial.println("LED off");
-  }
-
-}
+DHT dht11_p16(16, DHT11);
+unsigned long timeEvent=0;
 
 void setup()
 {
   Serial.begin(115200);
 
-  pinMode(2, OUTPUT);
-  myClient.setServer(MQTT_SERVER_IP, MQTT_SERVER_PORT);
-  myClient.setCallback(mqttCallback);
+  randomSeed(micros());
+  mqtt_client.setServer(mqtt_server,mqtt_port);
+  mqtt_client.setCallback(callback);
+  //mqtt_client.setBufferSize(1024);
 
+  WiFi.begin(_lwifi_ssid, _lwifi_pass);
+  while (WiFi.status() != WL_CONNECTED) { delay(500); }
+  delay(300);
+  Serial.println((String("WiFi connected to: ")+String("xxxxxxxx")+String(", IP Address: ")+String(WiFi.localIP().toString())));
+  timeEvent=0;
+  pinMode(2, OUTPUT);
+  pinMode(2, OUTPUT);
   digitalWrite(2, LOW);
-  dht11_p0.begin();
+  dht11_p16.begin();
 }
 
 void loop()
 {
-  myClient.loop();
-  connectMQTT();
-  myClient.subscribe(String("ghliaw240117/led").c_str());
+  if ((WiFi.status() != WL_CONNECTED)) {
+    Serial.println("WiFi connection is lost, reconnecting ....");
+    WiFi.disconnect();
+    WiFi.begin(_lwifi_ssid, _lwifi_pass);
+    while (WiFi.status() != WL_CONNECTED) { delay(500); }
+    delay(300);
+    Serial.println((String("WiFi connected to: ")+String("xxxxxxxx")+String(", IP address: ")+String(WiFi.localIP().toString())));
+  }
+  if (!mqtt_client.connected()) {
+    reconnect();
+  }
+  mqtt_client.loop();
+  if (ledStatus) {
+    pinMode(2, OUTPUT);
+    digitalWrite(2, LOW);
+  } else {
+    pinMode(2, OUTPUT);
+    digitalWrite(2, HIGH);
+  }
   if (timeEvent==0){
     timeEvent=millis();
-    t = dht11_p0.readTemperature();
-    h = dht11_p0.readHumidity();
-    Serial.println((String("Temperature: ")+String(t)+String(", Humidity: ")+String(h)));
-    myClient.publish(String("ghliaw240117/temp").c_str(),String(t).c_str());
-    myClient.publish(String("ghliaw240117/humi").c_str(),String(h).c_str());
+    float t = dht11_p16.readTemperature();
+    float h = dht11_p16.readHumidity();
+    Serial.println((String("Temperature: ")+String(t)+String("°C, Humidity: ")+String(h)+String("%")));
+    mqtt_sendText("ghliaw240117/temp", String(t));
+    mqtt_sendText("ghliaw240117/humi", String(h));
   }
   if (millis()-timeEvent>=5000)
     timeEvent=0;
+}
+
+void callback(char* topic, byte* payload, unsigned int length) {
+  mqtt_data = "";
+  for (int ci = 0; ci < length; ci++) {
+    char c = payload[ci];
+    mqtt_data+=c;
+  }
+  if (String(topic)==mqttLEDControlTopic&&mqtt_data!="[]") {
+    (mqtt_data).toLowerCase();
+    if ((mqtt_data) == "on") {
+      ledStatus = true;
+      mqtt_sendText(mqttLEDStatusTopic, "on");
+      Serial.println("LED on");
+    } else if ((mqtt_data) == "off") {
+      ledStatus = false;
+      mqtt_sendText(mqttLEDStatusTopic, "off");
+      Serial.println("LED off");
+    }
+  }
 }
