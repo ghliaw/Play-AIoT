@@ -1,4 +1,4 @@
-//Generated Date: Sat, 20 Jan 2024 01:54:06 GMT
+//Generated Date: Mon, 22 Jan 2024 17:00:31 GMT
 
 #include <ESP8266WiFi.h>
 #include <PubSubClient.h>
@@ -9,8 +9,8 @@
 boolean ledStatus = false;
 const char* mqttLEDControlTopic = "xxxxxxxx/led_control";
 const char* mqttLEDStatusTopic = "xxxxxxxx/led_status";
-char _lwifi_ssid[] = "xxxxxxxx";
-char _lwifi_pass[] = "xxxxxxxx";
+char _lwifi_ssid[] = "3715";
+char _lwifi_pass[] = "12345678";
 const char* mqtt_server = "mqttgo.io";
 const unsigned int mqtt_port = 1883;
 WiFiClient espClient;
@@ -50,7 +50,7 @@ void setup()
   WiFi.begin(_lwifi_ssid, _lwifi_pass);
   while (WiFi.status() != WL_CONNECTED) { delay(500); }
   delay(300);
-  Serial.println((String("WiFi connected to: ")+String("xxxxxxxx")+String(", IP Address: ")+String(WiFi.localIP().toString())));
+  Serial.println((String("WiFi connected to: ")+String("3715")+String(", IP Address: ")+String(WiFi.localIP().toString())));
   timeEvent=0;
   pinMode(2, OUTPUT);
   pinMode(2, OUTPUT);
@@ -84,8 +84,8 @@ void loop()
     float t = dht11_p16.readTemperature();
     float h = dht11_p16.readHumidity();
     Serial.println((String("Temperature: ")+String(t)+String("°C, Humidity: ")+String(h)+String("%")));
-    mqtt_sendText("ghliaw240117/temp", String(t));
-    mqtt_sendText("ghliaw240117/humi", String(h));
+    mqtt_sendText("xxxxxxxx/temp", String(t));
+    mqtt_sendText("xxxxxxxx/humi", String(h));
   }
   if (millis()-timeEvent>=5000)
     timeEvent=0;

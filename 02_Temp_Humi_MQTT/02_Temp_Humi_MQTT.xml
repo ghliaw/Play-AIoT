@@ -1,4 +1,4 @@
-<xml version="F2" board="LOLIN(WEMOS) D1 R2 mini" xmlns="https://developers.google.com/blockly/xml">
+<xml xmlns="https://developers.google.com/blockly/xml">
   <variables>
     <variable id="lO|S2I_~D-^F}Q,,RteZ">ledStatus</variable>
     <variable id="mVMA8w;^Av,DZgowt%pC">mqttLEDControlTopic</variable>
@@ -55,12 +55,12 @@
                       <block type="linkit_wifi_wait_until_ready" id=";eKoi6I06W)`m(t9{=@t">
                         <value name="SSID">
                           <block type="text" id="[T2~Cnj]J)Y+/5|1TU/S">
-                            <field name="TEXT">xxxxxxxx</field>
+                            <field name="TEXT">3715</field>
                           </block>
                         </value>
                         <value name="PASSWORD">
                           <block type="text" id=";z/1!R%XAz~g[U2u_JGe">
-                            <field name="TEXT">xxxxxxxx</field>
+                            <field name="TEXT">12345678</field>
                           </block>
                         </value>
                         <next>
@@ -75,7 +75,7 @@
                                 </value>
                                 <value name="ADD1">
                                   <block type="text" id="T19%%gaH)m_+Ai=|L5aG">
-                                    <field name="TEXT">xxxxxxxx</field>
+                                    <field name="TEXT">3715</field>
                                   </block>
                                 </value>
                                 <value name="ADD2">
@@ -442,7 +442,7 @@
                                       <block type="fu_mqtt_senddata" id="F/~w.g+zA[/paVMy,-8S">
                                         <value name="topic">
                                           <block type="text" id="nqfH7y*qp5!@j4=(oBOU">
-                                            <field name="TEXT">ghliaw240117/temp</field>
+                                            <field name="TEXT">xxxxxxxx/temp</field>
                                           </block>
                                         </value>
                                         <value name="text">
@@ -459,7 +459,7 @@
                                           <block type="fu_mqtt_senddata" id="2EbB;Okmwqe-N{@s:l,8">
                                             <value name="topic">
                                               <block type="text" id="]q]5YE*-*{+?j32=%A8@">
-                                                <field name="TEXT">ghliaw240117/humi</field>
+                                                <field name="TEXT">xxxxxxxx/humi</field>
                                               </block>
                                             </value>
                                             <value name="text">
